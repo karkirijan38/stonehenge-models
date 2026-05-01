@@ -20,7 +20,7 @@
 <body>
     <div id="info">
         <h2>Stonehenge Phase 1</h2>
-        <p>Testing GLB loading with Draco...</p>
+        <p>Testing GLB loading...</p>
     </div>
 
     <script type="importmap">
@@ -36,16 +36,8 @@
         import * as THREE from 'three';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
         import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-        import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 
-        // Setup Draco decoder
-        const dracoLoader = new DRACOLoader();
-        dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.4.1/');
-        
-        const loader = new GLTFLoader();
-        loader.setDRACOLoader(dracoLoader);
-
-        // Scene setup
+        // Setup
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0x87CEEB);
         
@@ -67,11 +59,12 @@
         directionalLight.position.set(5, 10, 7);
         scene.add(directionalLight);
         
-        // Ground plane
+        // Ground
         const gridHelper = new THREE.GridHelper(20, 20, 0x888888, 0x444444);
         scene.add(gridHelper);
         
-        // Load compressed GLB
+        // Load GLB
+        const loader = new GLTFLoader();
         loader.load('Phase+3v1.glb',
             (gltf) => {
                 const model = gltf.scene;
@@ -80,7 +73,7 @@
                 document.getElementById('info').innerHTML += '<br>✅ Model loaded!';
             },
             (xhr) => {
-                console.log(Math.round(xhr.loaded / xhr.total * 100) + '% loaded');
+                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
             },
             (error) => {
                 console.error('Error:', error);
