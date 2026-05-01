@@ -19,8 +19,8 @@
 </head>
 <body>
     <div id="info">
-        <h2>Stonehenge Phase 1</h2>
-        <p>Testing GLB loading...</p>
+        <h2>Stonehenge Phase 3</h2>
+        <p>Loading model with Draco support...</p>
     </div>
 
     <script type="importmap">
@@ -36,8 +36,16 @@
         import * as THREE from 'three';
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
         import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+        import { DRACOLoader } from 'three/addons/loaders/DRACOLoader.js';
 
-        // Setup
+        // Setup Draco decoder (required for compressed GLB files)
+        const dracoLoader = new DRACOLoader();
+        dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.4.1/');
+        
+        const loader = new GLTFLoader();
+        loader.setDRACOLoader(dracoLoader);
+
+        // Scene
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0x87CEEB);
         
@@ -59,29 +67,28 @@
         directionalLight.position.set(5, 10, 7);
         scene.add(directionalLight);
         
-        // Ground
+        // Ground reference
         const gridHelper = new THREE.GridHelper(20, 20, 0x888888, 0x444444);
         scene.add(gridHelper);
         
-        // Load GLB
-        const loader = new GLTFLoader();
-        loader.load('Phase+3v1.glb',
+        // Load your GLB
+        loader.load('Phase3v1.glb',
             (gltf) => {
                 const model = gltf.scene;
                 scene.add(model);
                 console.log('✅ Model loaded successfully!');
-                document.getElementById('info').innerHTML += '<br>✅ Model loaded!';
+                document.getElementById('info').innerHTML = '<h2>Stonehenge Phase 3</h2><p>✅ Model loaded!</p>';
+                document.getElementById('info').style.background = 'rgba(0,0,0,0.8)';
             },
             (xhr) => {
-                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                console.log(Math.round(xhr.loaded / xhr.total * 100) + '% loaded');
             },
             (error) => {
                 console.error('Error:', error);
-                document.getElementById('info').innerHTML += '<br>❌ Failed to load model';
+                document.getElementById('info').innerHTML = '<h2>Stonehenge Phase 3</h2><p>❌ Failed to load model</p>';
             }
         );
         
-        // Animation
         function animate() {
             requestAnimationFrame(animate);
             controls.update();
