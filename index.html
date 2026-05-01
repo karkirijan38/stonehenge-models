@@ -50,11 +50,13 @@
         import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
         // --- CONFIGURATION ---
-        // REPLACE 'YOUR_USERNAME' and 'YOUR_REPO' with your actual GitHub details!
-        const USERNAME = 'YOUR_USERNAME'; 
-        const REPO = 'YOUR_REPO';
-        const FILE_NAME = 'Phase3.glb';
-        const MODEL_URL = `https://raw.githubusercontent.com/${USERNAME}/${REPO}/main/${FILE_NAME}`;
+const USERNAME = 'karkirijan38'; 
+const REPO = 'stonehenge-models';
+const FILE_NAME = 'Phase3.glb';
+
+// This is the magic link that Three.js needs:
+const MODEL_URL = `https://raw.githubusercontent.com/${USERNAME}/${REPO}/main/${FILE_NAME}`;
+        
 
         // 1. Scene Setup
         const scene = new THREE.Scene();
